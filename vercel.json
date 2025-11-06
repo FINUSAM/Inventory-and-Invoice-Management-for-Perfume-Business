@@ -1,0 +1,13 @@
+{
+    "builds": [{
+        "src": "emza/wsgi.py",
+        "use": "@vercel/python",
+        "config": { "maxLambdaSize": "15mb", "runtime": "python3.13.5" }
+    }],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "emza/wsgi.py"
+        }
+    ]
+}
