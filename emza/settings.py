@@ -152,3 +152,8 @@ PWA_APP_ICONS_APPLE = [
 # use this if you want to use a custom serviceworker.js file
 #PWA_SERVICE_WORKER_PATH = 'serviceworker.js' 
 
+
+
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login'

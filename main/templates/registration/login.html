@@ -1,0 +1,73 @@
+{% extends "main/base.html" %}
+{% load main_extras %}
+
+{% block title %}EMZA - Login{% endblock %}
+
+{% block content %}
+    <div
+        class="relative flex h-auto min-h-screen w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden p-4">
+        <div class="flex w-full max-w-sm flex-col items-center">
+            
+            <!-- Logo Image -->
+            <div class="flex w-24 grow bg-background-light dark:bg-background-dark @container p-4">
+                <div
+                    class="w-full gap-1 overflow-hidden bg-background-light dark:bg-background-dark @[480px]:gap-2 aspect-square rounded-full flex">
+                    <div class="w-full bg-center bg-no-repeat bg-contain aspect-auto rounded-none flex-1"
+                        data-alt="EMZA app logo, a stylized letter E and M in gold."
+                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDBOlRIceu13eLjiitm1orypk2LZtkmwDgKUqfpO2IocpX-FRQEG8W4tIhnS0Cm9Q5EYEaSK-egmz7pUBLESVyJkFbOBcNQ9rNsIrgybellxcWsvWxLMBYgwkFDx7YcyQMUwg2eJo3yj8NpnCaicGCTkikfgOMZmy4f7etqauPDfJKsRYwUtfeQapmubiEYr6BICrx3AaXdfnK7L7ycFIAHhRK_VFLagp0IINvd5-nCisCxc8z2IBWKEmpqnVRnGdWLbK-c5KFnOeA"); filter: invert(75%) sepia(50%) saturate(1000%) hue-rotate(350deg) brightness(95%) contrast(90%);'>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HeadlineText -->
+            <h1 class="text-slate-900 dark:text-white tracking-light text-[32px] font-bold leading-tight px-4 text-center pb-1 pt-6 font-display">
+                Welcome Back
+            </h1>
+
+            <!-- BodyText -->
+            <p class="text-slate-500 dark:text-[#A9A9A9] text-base font-normal leading-normal pb-8 pt-1 px-4 text-center font-display">
+                Log in to your EMZA account
+            </p>
+
+            <form method="post" action="{% url 'login' %}" class="w-full">
+                {% csrf_token %}
+                <div class="w-full flex flex-col gap-4">
+                    <!-- Username TextField -->
+                    <div class="flex w-full flex-wrap items-end gap-4 px-4 py-1">
+                        <label class="flex flex-col min-w-40 flex-1">
+                            <p class="text-primary text-base font-medium leading-normal pb-2 font-display">{{ form.username.label_tag }}</p>
+                            {{ form.username|addclass:"flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/80 border border-slate-300 dark:border-[#A9A9A9]/50 bg-slate-100/50 dark:bg-black/30 focus:border-primary h-14 placeholder:text-slate-400 dark:placeholder:text-[#A9A9A9] p-[15px] text-base font-normal leading-normal font-display transition-all duration-300" }}
+                        </label>
+                    </div>
+                    <!-- Password TextField -->
+                    <div class="flex w-full flex-wrap items-end gap-4 px-4 py-1">
+                        <label class="flex flex-col min-w-40 flex-1">
+                            <p class="text-primary text-base font-medium leading-normal pb-2 font-display">{{ form.password.label_tag }}</p>
+                            <div class="flex w-full flex-1 items-stretch rounded-lg">
+                                {{ form.password|addclass:"flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/80 border border-slate-300 dark:border-[#A9A9A9]/50 bg-slate-100/50 dark:bg-black/30 focus:border-primary h-14 placeholder:text-slate-400 dark:placeholder:text-[#A9A9A9] p-[15px] rounded-r-none border-r-0 pr-2 text-base font-normal leading-normal font-display transition-all duration-300" }}
+                                <div
+                                    class="text-slate-500 dark:text-[#A9A9A9] flex border border-slate-300 dark:border-[#A9A9A9]/50 bg-slate-100/50 dark:bg-black/30 items-center justify-center pr-[15px] rounded-r-lg border-l-0">
+                                    <span class="material-symbols-outlined" style="font-size: 24px;">visibility_off</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Login Button -->
+                <div class="flex w-full items-center justify-center p-4 pt-8">
+                    <button type="submit"
+                        class="flex h-14 w-full items-center justify-center rounded-lg bg-primary px-6 text-base font-bold text-black dark:text-white shadow-lg transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/80 focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark font-display">Log
+                        In</button>
+                </div>
+            </form>
+
+            <!-- Forgot Password Link -->
+            <div class="pt-4">
+                <a class="text-sm font-medium text-slate-500 dark:text-[#A9A9A9] hover:text-primary transition-colors duration-300 font-display"
+                    href="#">Forgot Password?</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,15 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {% load pwa %}
     {% progressive_web_app_meta %}
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base</title>
+    
+    <title>{% block title %}{% endblock %}</title>
+    
     {% load static %}
     <link rel="stylesheet" href="{% static 'main/css/test.css' %}">
+
+    <!-- Tailwind CSS v4 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <!-- Tailwind v4 Configuration (CSS-based) -->
+    <style type="text/tailwindcss">
+        @theme {
+            --color-primary: #d4af37;
+            --color-background-light: #f8f7f6;
+            --color-background-dark: #121212;
+            --color-surface-dark: #1a1a1a;
+            --color-surface-dark-alt: #181818;
+            
+            --font-family-display: Inter, sans-serif;
+            
+            --radius: 1rem;
+            --radius-lg: 2rem;
+            --radius-xl: 3rem;
+            --radius-full: 9999px;
+        }
+    </style>
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
 </head>
+
 <body>
     {% block content %}{% endblock %}
 </body>
+
 </html>
