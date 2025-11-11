@@ -1,5 +1,6 @@
 {% extends "main/base.html" %}
 {% load main_extras %}
+{% load static %}
 
 {% block title %}EMZA - Login{% endblock %}
 
@@ -9,12 +10,12 @@
         <div class="flex w-full max-w-sm flex-col items-center">
             
             <!-- Logo Image -->
-            <div class="flex w-24 grow bg-background-light dark:bg-background-dark @container p-4">
+            <div class="flex w-45 grow bg-background-light dark:bg-background-dark @container p-4">
                 <div
                     class="w-full gap-1 overflow-hidden bg-background-light dark:bg-background-dark @[480px]:gap-2 aspect-square rounded-full flex">
                     <div class="w-full bg-center bg-no-repeat bg-contain aspect-auto rounded-none flex-1"
                         data-alt="EMZA app logo, a stylized letter E and M in gold."
-                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDBOlRIceu13eLjiitm1orypk2LZtkmwDgKUqfpO2IocpX-FRQEG8W4tIhnS0Cm9Q5EYEaSK-egmz7pUBLESVyJkFbOBcNQ9rNsIrgybellxcWsvWxLMBYgwkFDx7YcyQMUwg2eJo3yj8NpnCaicGCTkikfgOMZmy4f7etqauPDfJKsRYwUtfeQapmubiEYr6BICrx3AaXdfnK7L7ycFIAHhRK_VFLagp0IINvd5-nCisCxc8z2IBWKEmpqnVRnGdWLbK-c5KFnOeA"); filter: invert(75%) sepia(50%) saturate(1000%) hue-rotate(350deg) brightness(95%) contrast(90%);'>
+                        style="background-image: url('{% static 'images/icons/icon-152x152.png' %}');">
                     </div>
                 </div>
             </div>

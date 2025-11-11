@@ -138,13 +138,13 @@ PWA_APP_ORIENTATION = 'any'
 PWA_APP_START_URL = '/'
 PWA_APP_ICONS = [
     {
-        'src': '/static/images/icon-152x152.png',
+        'src': '/static/images/icons/icon-152x152.png',
         'sizes': '152x152'
     }
 ]
 PWA_APP_ICONS_APPLE = [
     {
-        'src': '/static/images/icon-152x152.png',
+        'src': '/static/images/icons/icon-152x152.png',
         'sizes': '152x152'
     }
 ]
