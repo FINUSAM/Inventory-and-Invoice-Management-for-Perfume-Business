@@ -7,4 +7,5 @@ urlpatterns = [
     path('class/', views.Home.as_view(), name='home'),
 
     path('', views.SaleBillListView.as_view(), name='salebill-list'),
+    path('<int:pk>/', views.SaleBillDetailView.as_view(), name='salebill-detail'),
 ]
