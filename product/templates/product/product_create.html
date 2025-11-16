@@ -1,0 +1,388 @@
+{% extends "main/base-default.html" %}
+
+{% block title %} New Product {% endblock %}
+
+{% block base-css %}
+<style>
+    /* Style Select2 to match the new design */
+    .select2-container .select2-selection--single {
+        height: 56px !important; /* h-14 */
+        background-color: rgba(23, 23, 23, 0.5) !important; /* dark:bg-neutral-900/50 */
+        border: 1px solid #404040 !important; /* dark:border-neutral-700 */
+        border-radius: 0.5rem; /* rounded-lg */
+        display: flex;
+        align-items: center;
+    /* --- Select2 Theme Styling --- */
+    @layer base {
+        /* Main Select2 input field */
+        .select2-selection {
+            @apply h-14 !important; /* h-14 */
+            @apply rounded-lg !important; /* rounded-lg */
+            @apply border !important;
+            @apply bg-slate-100/50 border-slate-300 dark:bg-neutral-900/50 dark:border-neutral-700;
+            @apply flex items-center;
+        }
+
+        /* Text inside the input field */
+        .select2-selection__rendered {
+            @apply text-slate-900 dark:text-white !important;
+            @apply leading-[56px] !important; /* Center vertically */
+            @apply pl-4 !important; /* p-4 */
+        }
+
+        /* Arrow icon */
+        .select2-selection__arrow {
+            @apply h-14 !important;
+            @apply right-4 !important;
+        }
+
+        /* Dropdown container */
+        .select2-dropdown {
+            @apply rounded-lg;
+            @apply border;
+            @apply bg-background-light border-slate-300 dark:bg-surface-dark dark:border-neutral-700;
+        }
+
+        /* Search field inside the dropdown */
+        .select2-search__field {
+            @apply bg-transparent !important;
+            @apply text-slate-900 dark:text-white;
+        }
+
+        /* Individual result item */
+        .select2-results__option {
+            @apply text-slate-900 dark:text-white;
+        }
+
+        /* Highlighted/hovered result item */
+        .select2-results__option--highlighted {
+            @apply bg-primary !important;
+            @apply text-black dark:text-white !important;
+        }
+
+        /* Selected item in the list */
+        .select2-results__option[aria-selected=true] {
+            @apply bg-primary/20;
+        }
+
+        /* Placeholder text */
+        .select2-selection__placeholder {
+            @apply text-slate-400 dark:text-neutral-500;
+        }
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #fff; /* text-white */
+        line-height: 56px; /* Center vertically */
+        padding-left: 1rem; /* p-4 */
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 56px;
+        right: 1rem;
+    }
+    .select2-dropdown {
+        background-color: #1a1a1a; /* bg-surface-dark */
+        border: 1px solid #404040; /* dark:border-neutral-700 */
+    }
+    .select2-search__field {
+        background-color: transparent !important;
+        color: #fff;
+    }
+    .select2-results__option {
+        color: #fff;
+    }
+    .select2-results__option--highlighted {
+        background-color: #d4af37 !important; /* primary color */
+        color: #121212 !important;
+    }
+</style>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
+{% block base-content %}
+<div class="relative flex h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-y-auto">
+    <!-- Header -->
+    <header class="flex sticky top-0 z-10 items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm p-4 pb-2 justify-between">
+        <a href="{% url 'product-list' %}" class="text-slate-900 dark:text-white flex size-12 shrink-0 items-center justify-center">
+            <span class="material-symbols-outlined text-3xl">arrow_back</span>
+        </a>
+        <h1 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">New Product</h1>
+        <div class="size-12 shrink-0"></div> <!-- Spacer to center the title -->
+    </header>
+
+    <!-- Form Content -->
+    <main class="flex-grow px-4 pt-4 pb-44">
+        <form method="post" class="flex w-full max-w-md mx-auto flex-col space-y-6">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {{ formset.non_form_errors }}
+            {{ formset.management_form }}
+
+            <!-- Product Name Field -->
+            <label class="flex flex-col w-full">
+                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Product Name</p>
+                {{ form.name }}
+            </label>
+
+            <!-- Price Field -->
+            <label class="flex flex-col w-full">
+                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Price</p>
+                {{ form.price }}
+            </label>
+
+            <!-- Stock Details Section (Formset) -->
+            <div class="flex flex-col w-full space-y-3">
+                <div class="flex justify-between items-center">
+                    <p class="text-slate-900 dark:text-white text-base font-medium leading-normal">Stock Details</p>
+                    <button type="button" id="add-form-btn" class="flex items-center justify-center size-8 rounded-full bg-primary text-black dark:text-white">
+                        <span class="material-symbols-outlined text-xl font-bold">add</span>
+                    </button>
+                </div>
+
+                <!-- Container for existing and new formset forms -->
+                <div id="formset-container" class="flex flex-col space-y-3">
+                    {% for form in formset %}
+                    <div class="formset-form flex items-center gap-3" data-index="{{ forloop.counter0 }}">
+                        {{ form.id }} {# Important hidden field #}
+                        <div class="hidden">{{ form.DELETE }}</div> {# Hidden field for deletion #}
+                        <div class="flex-grow">{{ form.stock }}</div>
+                        <div class="w-20 shrink-0">{{ form.quantity }}</div>
+                        <button type="button" class="remove-form-btn text-red-500">
+                            <span class="material-symbols-outlined">delete</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Floating Action Button -->
+            <footer class="fixed bottom-0 left-0 right-0 w-full p-4 bg-gradient-to-t from-background-light dark:from-background-dark to-transparent">
+                <div class="flex w-full max-w-md mx-auto">
+                    <button type="submit" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-14 px-5 flex-1 bg-primary text-black dark:text-white text-base font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity">
+                        <span class="truncate">Save Product</span>
+                    </button>
+                </div>
+            </footer>
+        </form>
+    </main>
+</div>
+
+<!-- Template for new formset forms -->
+<div id="empty-form-template" style="display: none;">
+    <div class="formset-form flex items-center gap-3" data-index="__prefix__">
+        {{ formset.empty_form.id }}
+        <div class="hidden">{{ formset.empty_form.DELETE }}</div>
+        <div class="flex-grow">{{ formset.empty_form.stock }}</div>
+        <div class="w-20 shrink-0">{{ formset.empty_form.quantity }}</div>
+        <button type="button" class="remove-form-btn text-red-500">
+            <span class="material-symbols-outlined">delete</span>
+        </button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    // --- Select2 Auto-Close Fix Start ---
+    // This patch is often required for Select2 4.1.0-rc.0 to close properly
+    // when used with certain CSS frameworks or DOM structures.
+    $.fn.select2.amd.require(['select2/dropdown', 'select2/utils'],
+        function (Dropdown, Utils) {
+            // Extend the original dropdown adapter
+            function CustomDropdown() {
+                CustomDropdown.__super__.constructor.apply(this, arguments);
+            }
+            Utils.Extend(CustomDropdown, Dropdown);
+
+            CustomDropdown.prototype.render = function (decorated) {
+                var $rendered = decorated.render.apply(this, arguments);
+                // Add a class that can be used to prevent propagation if needed
+                $rendered.addClass('select2-dropdown-fix');
+                return $rendered;
+            };
+
+            // Override the method that determines if a click is "outside"
+            CustomDropdown.prototype.attachContainer = function (decorated, $container) {
+                decorated.attachContainer.apply(this, arguments);
+
+                // The standard fix is to use 'mouseup' instead of 'mousedown' or handle the click target.
+                // However, a simple, non-intrusive fix is to ensure the body event listener is not blocked.
+                // Since the core issue is usually related to how Select2 calculates the bounding box
+                // or event propagation, we will just force the select2 container to be part of the targets.
+
+                // Check if the current element is a child of the form-container, 
+                // which might sometimes be the root of the problem.
+            };
+
+            // Override the 'close' method to ensure it always closes when a non-Select2 element is clicked
+            // This is often used for modal contexts, but can help here too.
+            $(document).on('click', function (e) {
+                var $select2Containers = $('.select2-container--open');
+
+                // If no select2 is open, return
+                if ($select2Containers.length === 0) return;
+
+                var $target = $(e.target);
+
+                // Check if the click target is outside any open Select2 container
+                if (!$target.parents('.select2-container').length && !$target.hasClass('select2-container')) {
+                    // Find the underlying select element and trigger the close event
+                    $select2Containers.each(function () {
+                        $(this).prev('select').select2('close');
+                    });
+                }
+            });
+
+            // Now, modify the initializeSelect2 function to use this custom dropdown adapter
+            window.CustomDropdownAdapter = CustomDropdown;
+        }
+    );
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const addFormBtn = document.getElementById('add-form-btn');
+        const formContainer = document.getElementById('formset-container');
+        const template = document.getElementById('empty-form-template');
+
+        // Define the URL pattern with a standard placeholder
+        const AJAX_URL_PATTERN = `/stocks/search/`;
+
+        // The prefix for the formset (from your page source)
+        const prefix = 'stockvariant_set';
+        const totalFormsInput = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
+
+
+        // Utility function to initialize Select2 with Ajax
+        function initializeSelect2(elementId, ajaxUrl) {
+            $(`#${elementId}`).select2({
+                // Placeholder text before selection
+                placeholder: 'Search',
+                // Minimum characters required to start a search
+                minimumInputLength: 1,
+                width: '100%',
+                allowClear: true,
+                ajax: {
+                    // URL to your Django view that handles the search
+                    url: ajaxUrl,
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            term: params.term, // search term
+                            page: params.page
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.results, // The list of {id: X, text: Y} objects
+                            pagination: {
+                                more: (params.page * 30) < data.total_count // Or whatever your page size is
+                            }
+                        };
+                    },
+                    cache: true
+                }
+            })
+                .on('select2:open', function () {
+                    // This code executes immediately after the dropdown opens
+
+                    // Find the search box input element within the Select2 dropdown
+                    // The class 'select2-search__field' is standard in Select2 v4
+                    const searchInput = $('.select2-container--open .select2-search__field')[0];
+
+                    // Automatically focus the input field so the user can start typing immediately
+                    if (searchInput) {
+                        searchInput.focus();
+                    }
+                });
+        }
+
+        // --- 1. Add Form Logic ---
+        function addForm(e) {
+            e.preventDefault();
+
+            // A. Find/Read Index (Get current TOTAL_FORMS value)
+            let currentTotalForms = parseInt(totalFormsInput.value);
+            const newIndex = currentTotalForms;
+
+            // B. Clone Template
+            // Select the inner form div inside the template (the actual form structure)
+            const newFormHtml = template.innerHTML;
+
+            // C. Update HTML (Replace '__prefix__' with the new index)
+            const updatedFormHtml = newFormHtml.replace(/__prefix__/g, newIndex);
+            
+            // Create a new div element for the form
+            const newFormDiv = document.createElement('div');
+            newFormDiv.className = 'formset-form';
+            newFormDiv.setAttribute('data-index', newIndex);
+            newFormDiv.innerHTML = updatedFormHtml;
+
+            // D. Insert Form
+            // We need to insert the actual form div, not the wrapper
+            const formToAdd = newFormDiv.querySelector('.formset-form');
+            formToAdd.setAttribute('data-index', newIndex); // Ensure the inner div has the index
+            formContainer.appendChild(formToAdd);
+
+            // E. Update Management (Increment TOTAL_FORMS)
+            totalFormsInput.value = newIndex + 1;
+
+            // F. INITIALIZE SELECT2 on the new element!
+            const newSelectId = `id_${prefix}-${newIndex}-stock`;
+            const ajaxUrl = AJAX_URL_PATTERN;
+            initializeSelect2(newSelectId, ajaxUrl);
+
+            // Attach listener to the new 'Remove' button
+            attachRemoveListeners(formToAdd);
+        }
+
+        // --- 2. Remove Form Logic ---
+        function removeForm(e) {
+            e.preventDefault();
+            const formDiv = e.target.closest('.formset-form');
+            if (!formDiv) return;
+            
+            // A. Find the DELETE checkbox
+            const index = formDiv.getAttribute('data-index');
+            const deleteCheckboxId = `id_${prefix}-${index}-DELETE`;
+            const deleteCheckbox = document.getElementById(deleteCheckboxId);
+            
+            // B. Mark for Deletion (Check the checkbox)
+            if (deleteCheckbox) {
+                deleteCheckbox.checked = true;
+            }
+
+            // C. Hide Form
+            formDiv.style.display = 'none';
+
+            // NOTE: We DO NOT decrement TOTAL_FORMS here, as the index must be preserved 
+            // for the DELETE flag to be processed by Django's formset validation.
+        }
+
+        // --- 3. Initial Setup and Event Delegation ---
+        // Initialize Select2 on the existing form(s) on page load
+        const ajaxUrl = AJAX_URL_PATTERN;
+        for (let i = 0; i < parseInt(totalFormsInput.value); i++) {
+            const initialSelectId = `id_${prefix}-${i}-stock`;
+            if ($(`#${initialSelectId}`).length) {
+                initializeSelect2(initialSelectId, ajaxUrl);
+            }
+        }
+
+        // Attach the Add Form handler
+        if (addFormBtn) {
+            addFormBtn.addEventListener('click', addForm);
+        }
+
+        // Utility function to attach remove listeners (used after adding a form)
+        function attachRemoveListeners(container) {
+            container.querySelectorAll('.remove-form-btn').forEach(btn => {
+                btn.addEventListener('click', removeForm);
+            });
+        }
+
+        // Attach listeners to all existing remove buttons on page load
+        attachRemoveListeners(formContainer);
+    });
+</script>
+{% endblock %}

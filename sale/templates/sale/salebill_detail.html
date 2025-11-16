@@ -382,6 +382,7 @@
                                 </div>
                             </td>
                             <!-- Billed To (RIGHT ALIGNED) -->
+                            {% if object.customer and object.customer.name != "Walk-in Customer" %}
                             <td class="w-1/2 align-top text-right pr-2">
                                 <p class="font-bold color-gold mb-1 uppercase">BILLED TO</p>
                                 <div class="addr-line-tight">
@@ -391,6 +392,7 @@
                                     <p class="text-xs text-charcoal-light">{{ object.customer.address }}</p>
                                 </div>
                             </td>
+                            {% endif %}
                         </tr>
                     </tbody>
                 </table>

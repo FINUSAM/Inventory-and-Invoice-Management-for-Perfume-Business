@@ -1,15 +1,10 @@
-from django.http import HttpResponse
-from django.shortcuts import render
-from django.views.generic import View
 from .models import SaleBill, ProductSale
-from django.views.generic import ListView
-from django.views.generic import DetailView
+from django.views.generic import ListView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import SaleBillForm, SaleBillInlineFormset
+from django.shortcuts import redirect
 
 # Create your views here.
-
-def home(request):
-    return HttpResponse("This is MAIN from Function Based View")
 
 class SaleBillListView(ListView):
     model = SaleBill
@@ -27,6 +22,38 @@ class SaleBillDetailView(LoginRequiredMixin, DetailView):
 
 
 
-class Home(View):
-    def get(self, request):
-        return HttpResponse("This is MAIN from Class Based View")
+
+class SaleBillCreateView(LoginRequiredMixin, CreateView):
+    model = SaleBill
+    form_class = SaleBillForm
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'formset' not in kwargs:
+            context['formset'] = SaleBillInlineFormset(queryset=ProductSale.objects.none())
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form(self.get_form_class())
+        formset = SaleBillInlineFormset(request.POST)
+
+        if form.is_valid() and formset.is_valid():
+            return self.form_valid(form, formset)
+        else:
+            return self.form_invalid(form, formset)
+
+    def form_valid(self, form, formset):
+        salebill = form.save()
+
+        # Now save each ProductSale instance from the formset
+        for product_sale in formset.save(commit=False):
+            product_sale.salebill = salebill  # Link ProductSale to the SaleBill
+            product_sale.save()
+
+        # Redirect to the sale bill detail view or another page after successful submission
+        return redirect('salebill-list')
+
+
+    def form_invalid(self, form, formset):
+        # If the form or formset is invalid, re-render the form with error messages
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))

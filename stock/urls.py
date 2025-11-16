@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.StockListView.as_view(), name='stock-list'),
     path('create/', views.StockCreateView.as_view(), name='stock-create'),
-
+    path('search/', views.stock_search_ajax_view, name='stock_search_ajax'),
 
 
     # path('business/<int:business_id>/stock-search/', views.stock_search_ajax_view, name='stock_search_ajax'),

@@ -61,5 +61,5 @@ class Stock(models.Model):
         return self.sale_quantity
 
     def get_absolute_url(self):
-        return reverse('stock-detail')
+        return reverse('stock-list')
     
