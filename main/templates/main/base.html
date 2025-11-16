@@ -4,72 +4,99 @@
 
 {% block title %} Base {% endblock %}
 
+{% block base-css %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/css/install_prompt.css' %}">
+{% endblock %}
+
 {% block base-content %}
 
-    <!-- Top App Bar -->
-    <header class="sticky top-0 z-20 flex shrink-0 items-center justify-between bg-background-light dark:bg-surface-dark p-4">
-        <div class="flex h-12 w-12 shrink-0 items-center justify-start">
-            <img alt="EMZA Logo" class="h-12 w-12"
-                src="{% static 'images/icons/icon-152x152.png' %}" />
-        </div>
-        <h1 class="text-xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white">
-            {% block heading %} EMZA {% endblock %}
-        </h1>
-        <div class="flex w-12 items-center justify-end">
-            <button
-                class="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-transparent text-slate-500 dark:text-primary">
-                <span class="material-symbols-outlined text-2xl">settings</span>
-            </button>
-        </div>
-    </header>
-    <!-- Main Content -->
-    <main class="px-4 pb-28">
-        <!-- Inventory Table with items -->
-        <div class="overflow-x-auto">
-            {% block content %}{% endblock %}
-        </div>
-    </main>
-    <!-- Floating Action Button -->
-    <div class="fixed bottom-24 right-5 z-10">
+<!-- Top App Bar -->
+<header
+    class="sticky top-0 z-20 flex shrink-0 items-center justify-between bg-background-light dark:bg-surface-dark p-4">
+    <div class="flex h-12 w-12 shrink-0 items-center justify-start">
+        <img alt="EMZA Logo" class="h-12 w-12" src="{% static 'images/icons/icon-152x152.png' %}" />
+    </div>
+    <h1 class="text-xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white">
+        {% block heading %} EMZA {% endblock %}
+    </h1>
+    <div class="flex w-12 items-center justify-end">
         <button
-            class="flex h-14 w-14 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-primary text-white shadow-lg">
-            <span class="material-symbols-outlined text-3xl">add</span>
+            class="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-transparent text-slate-500 dark:text-primary">
+            <span class="material-symbols-outlined text-2xl">settings</span>
         </button>
     </div>
-    <!-- Bottom Navigation Bar -->
-    <div class="relative bg-background-light dark:bg-background-dark">
-        <nav class="fixed bottom-0 left-0 z-20 w-full shrink-0">
-            <div
-                class="flex border-t border-slate-200/10 dark:border-white/10 bg-background-light dark:bg-surface-dark px-4 pb-3 pt-2">
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 {% if request.resolver_match.url_name == 'product-list' %}rounded-full text-primary{% else %}text-slate-500 dark:text-slate-400{% endif %}"
-                    href="{% url 'product-list' %}">
-                    <div class="flex h-8 items-center justify-center">
-                        <span class="material-symbols-outlined fill-current">inventory_2</span>
-                    </div>
-                    <p class="text-xs font-medium leading-normal tracking-[0.015em]">Products</p>
-                </a>
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 {% if request.resolver_match.url_name == 'stock-list' %}rounded-full text-primary{% else %}text-slate-500 dark:text-slate-400{% endif %}"
-                    href="{% url 'stock-list' %}">
-                    <div class="flex h-8 items-center justify-center">
-                        <span class="material-symbols-outlined fill-current">inventory_2</span>
-                    </div>
-                    <p class="text-xs font-medium leading-normal tracking-[0.015em]">Stocks</p>
-                </a>
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 {% if request.resolver_match.url_name == 'salebill-list' %}rounded-full text-primary{% else %}text-slate-500 dark:text-slate-400{% endif %}"
-                    href="{% url 'salebill-list' %}">
-                    <div class="flex h-8 items-center justify-center">
-                        <span class="material-symbols-outlined">storefront</span>
-                    </div>
-                    <p class="text-xs font-medium leading-normal tracking-[0.015em]">Sale</p>
-                </a>
-                <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500 dark:text-slate-400"
-                    href="#">
-                    <div class="flex h-8 items-center justify-center">
-                        <span class="material-symbols-outlined">shopping_cart</span>
-                    </div>
-                    <p class="text-xs font-medium leading-normal tracking-[0.015em]">Purchase</p>
-                </a>
-            </div>
-        </nav>
+</header>
+<!-- Main Content -->
+<main class="px-4 pb-28">
+    <!-- Inventory Table with items -->
+    <div class="overflow-x-auto">
+        {% block content %}{% endblock %}
     </div>
+</main>
+<!-- Floating Action Button -->
+<div class="fixed bottom-24 right-5 z-10">
+    <button
+        class="flex h-14 w-14 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-primary text-white shadow-lg">
+        <span class="material-symbols-outlined text-3xl">add</span>
+    </button>
+</div>
+<!-- Bottom Navigation Bar -->
+<div class="relative bg-background-light dark:bg-background-dark">
+    <nav class="fixed bottom-0 left-0 z-20 w-full shrink-0">
+        <div
+            class="flex border-t border-slate-200/10 dark:border-white/10 bg-background-light dark:bg-surface-dark px-4 pb-3 pt-2">
+            <a class="flex flex-1 flex-col items-center justify-end gap-1 {% if request.resolver_match.url_name == 'product-list' %}rounded-full text-primary{% else %}text-slate-500 dark:text-slate-400{% endif %}"
+                href="{% url 'product-list' %}">
+                <div class="flex h-8 items-center justify-center">
+                    <span class="material-symbols-outlined fill-current">inventory_2</span>
+                </div>
+                <p class="text-xs font-medium leading-normal tracking-[0.015em]">Products</p>
+            </a>
+            <a class="flex flex-1 flex-col items-center justify-end gap-1 {% if request.resolver_match.url_name == 'stock-list' %}rounded-full text-primary{% else %}text-slate-500 dark:text-slate-400{% endif %}"
+                href="{% url 'stock-list' %}">
+                <div class="flex h-8 items-center justify-center">
+                    <span class="material-symbols-outlined fill-current">inventory_2</span>
+                </div>
+                <p class="text-xs font-medium leading-normal tracking-[0.015em]">Stocks</p>
+            </a>
+            <a class="flex flex-1 flex-col items-center justify-end gap-1 {% if request.resolver_match.url_name == 'salebill-list' %}rounded-full text-primary{% else %}text-slate-500 dark:text-slate-400{% endif %}"
+                href="{% url 'salebill-list' %}">
+                <div class="flex h-8 items-center justify-center">
+                    <span class="material-symbols-outlined">storefront</span>
+                </div>
+                <p class="text-xs font-medium leading-normal tracking-[0.015em]">Sale</p>
+            </a>
+            <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500 dark:text-slate-400" href="#">
+                <div class="flex h-8 items-center justify-center">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                </div>
+                <p class="text-xs font-medium leading-normal tracking-[0.015em]">Purchase</p>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<div id="addToHomeScreenContainer" class="fixed bottom-20 left-0 right-0 z-50 w-full px-4 pb-3">
+    <div class="flex items-center justify-between rounded-lg bg-white dark:bg-surface-dark p-3 shadow-lg">
+        <div class="flex items-center gap-3">
+            <img alt="EMZA App Icon" class="h-10 w-10 rounded-lg"
+                src="{% static 'images/icons/icon-152x152.png' %}" />
+            <div>
+                <p class="text-sm font-semibold text-slate-900 dark:text-white">Add EMZA to Home Screen</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Access your inventory instantly.</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button id="addToHomeScreenButton"
+                class="rounded-full bg-transparent px-4 py-2 text-sm font-bold text-primary hover:bg-black/10 dark:hover:bg-white/10">
+                Add
+            </button>
+            <button id="close_addToHomeScreenButton"
+                class="flex h-8 w-8 items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:bg-black/10 dark:hover:bg-white/10">
+                <span class="material-symbols-outlined text-xl">close</span>
+            </button>
+        </div>
+    </div>
+</div>
+<script src="{% static 'main/js/install_prompt.js' %}"></script>
 {% endblock %}

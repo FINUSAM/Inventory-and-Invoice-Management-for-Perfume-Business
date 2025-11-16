@@ -1,9 +1,10 @@
+
+
 let deferredPrompt; // Store the install prompt
-let alreadyPrompted = 3000; // Show after 3 seconds for the first prompt
+let alreadyPrompted = 1000; // Show after 3 seconds for the first prompt
 
 function show_addToHomeScreen(wait_time) {
   setTimeout(() => {
-    document.getElementById('close_addToHomeScreenButton').blur();
     document.getElementById('addToHomeScreenContainer').classList.add('show');
   }, wait_time);
 }
@@ -23,7 +24,7 @@ if (isIos() && !isInStandaloneMode()) {
   // Show a custom iOS install prompt
   console.log('Showing iOS A2HS prompt');
   show_addToHomeScreen(alreadyPrompted);
-  alreadyPrompted = 10 * 1000; // Show after 10 seconds after the first prompt
+  alreadyPrompted = 1 * 1000; // Show after 10 seconds after the first prompt
 } else {
   // Handle Android/Windows A2HS using beforeinstallprompt
   window.addEventListener('beforeinstallprompt', (e) => {
@@ -34,7 +35,7 @@ if (isIos() && !isInStandaloneMode()) {
 
     // Show the addToHomeScreenContainer after a delay or user interaction
     show_addToHomeScreen(alreadyPrompted);
-    alreadyPrompted = 10 * 100; // Show after 10 seconds after first prompt
+    alreadyPrompted = 1 * 1000; // Show after 10 seconds after first prompt
   });
 }
 
@@ -64,5 +65,8 @@ document.getElementById('addToHomeScreenButton').addEventListener('click', (e) =
 document.getElementById('close_addToHomeScreenButton').addEventListener('click', (e) => {
   console.log('User closed the addToHomeScreen');
   document.getElementById('addToHomeScreenContainer').classList.remove('show');
-  show_addToHomeScreen(1 * 1000); // Optionally show again after a short delay
+  // You might want to show it again after a longer delay, e.g., 60 seconds
+  show_addToHomeScreen(1 * 1000);
 });
+
+
