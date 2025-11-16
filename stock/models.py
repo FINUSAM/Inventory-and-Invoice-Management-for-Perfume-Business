@@ -34,7 +34,7 @@ class Stock(models.Model):
         return self.opening_quantity + self.purchase_quantity - self.sale_quantity
 
     def __str__(self):
-        return self.name
+        return self.name + " " + self.stock_type.name
     
     # def get_absolute_url(self):
     #     return reverse('stock-detail', kwargs={'business_id': self.business.pk, 'pk': self.pk})
@@ -59,3 +59,7 @@ class Stock(models.Model):
         self.sale_quantity -= quantity
         self.save()
         return self.sale_quantity
+
+    def get_absolute_url(self):
+        return reverse('stock-detail')
+    

@@ -2,10 +2,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('function/', views.home, name='home'),
-    path('class/', views.Home.as_view(), name='home'),
-
     path('', views.StockListView.as_view(), name='stock-list'),
+    path('create/', views.StockCreateView.as_view(), name='stock-create'),
 
 
 

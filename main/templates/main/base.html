@@ -33,13 +33,15 @@
         {% block content %}{% endblock %}
     </div>
 </main>
+
 <!-- Floating Action Button -->
-<div class="fixed bottom-24 right-5 z-10">
-    <button
+<a href="create" class="fixed bottom-24 right-5 z-10">
+    <div
         class="flex h-14 w-14 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-primary text-white shadow-lg">
         <span class="material-symbols-outlined text-3xl">add</span>
-    </button>
-</div>
+    </div>
+</a>
+
 <!-- Bottom Navigation Bar -->
 <div class="relative bg-background-light dark:bg-background-dark">
     <nav class="fixed bottom-0 left-0 z-20 w-full shrink-0">
@@ -79,8 +81,7 @@
 <div id="addToHomeScreenContainer" class="fixed bottom-20 left-0 right-0 z-50 w-full px-4 pb-3">
     <div class="flex items-center justify-between rounded-lg bg-white dark:bg-surface-dark p-3 shadow-lg">
         <div class="flex items-center gap-3">
-            <img alt="EMZA App Icon" class="h-10 w-10 rounded-lg"
-                src="{% static 'images/icons/icon-152x152.png' %}" />
+            <img alt="EMZA App Icon" class="h-10 w-10 rounded-lg" src="{% static 'images/icons/icon-152x152.png' %}" />
             <div>
                 <p class="text-sm font-semibold text-slate-900 dark:text-white">Add EMZA to Home Screen</p>
                 <p class="text-xs text-slate-500 dark:text-slate-400">Access your inventory instantly.</p>
