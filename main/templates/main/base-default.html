@@ -12,7 +12,6 @@
     <title>{% block title %}{% endblock %}</title>
     
     {% load static %}
-    <link rel="stylesheet" href="{% static 'main/css/test.css' %}">
 
     <!-- Tailwind CSS v4 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -45,10 +44,25 @@
             -moz-osx-font-smoothing: grayscale;
         }
     </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/install_prompt.css' %}">
 </head>
 
 <body class="bg-background-light dark:bg-background-dark font-display">
     {% block base-content %}{% endblock %}
 </body>
+
+
+<!-- iOS Add to Home Screen Prompt (for user guidance) -->
+<div id="ios-install-prompt" style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; padding: 15px; background: #fff; border: 1px solid #ccc; border-radius: 10px; text-align: center;">
+    <p>To install this app, tap the <strong>Share</strong> icon, then select <strong>Add to Home Screen</strong>.</p>
+    <button onclick="document.getElementById('ios-install-prompt').style.display='none';">Dismiss</button>
+</div>
+
+<!-- Code for Add to Home Screen PWA -->
+<div id="addToHomeScreenContainer">
+    <button type="button" class="btn btn-dark" id="addToHomeScreenButton">Add to Home Screen</button>
+    <button type="button" class="btn-close" aria-label="close pop up" id="close_addToHomeScreenButton"></button>
+</div>
+<script src="{% static 'main/js/install_prompt.js' %}"></script>
 
 </html>
