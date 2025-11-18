@@ -1,12 +1,16 @@
 from .models import Stock
 from django.views.generic import ListView, CreateView
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+@login_required
 class StockListView(ListView):
     model = Stock
 
 
+@login_required
 class StockCreateView(CreateView):
     model = Stock
     fields = ['name', 'stock_type','opening_quantity']
@@ -24,10 +28,9 @@ class StockCreateView(CreateView):
         form.fields['opening_quantity'].widget.attrs.update({'class': input_classes, 'placeholder': 'e.g., 100'})
         form.fields['stock_type'].widget.attrs.update({'class': select_classes})
         return form
-    
 
-from django.http import JsonResponse
 
+@login_required
 def stock_search_ajax_view(request):
     """
     Handles Select2 AJAX search requests for Stock items tied to a specific business.

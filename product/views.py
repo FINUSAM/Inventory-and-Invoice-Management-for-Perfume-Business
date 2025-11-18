@@ -4,14 +4,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from .forms import ProductForm, StockVariantInlineFormset
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 
+@login_required
 class ProductListView(ListView):
     model = Product
 
 
+@login_required
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     template_name = 'product/product_create.html'
@@ -46,6 +49,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
 
 
+@login_required
 def product_search_ajax_view(request):
     """
     Handles Select2 AJAX search requests for product items tied to a specific business.
