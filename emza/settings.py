@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'stock',
     'product',
     'sale',
+    'customer',
     'pwa',
 ]
 

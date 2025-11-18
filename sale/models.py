@@ -1,21 +1,11 @@
 from django.db import models
 from product.models import Product
 from django.core.exceptions import ValidationError
-from django.urls import reverse
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
+from customer.models import Customer
 
 # Create your models here.
-
-
-class Customer(models.Model):
-    name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=20, blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-
 
 class SaleBill(models.Model):
     bill_number = models.CharField(max_length=20, unique=True, editable=False)

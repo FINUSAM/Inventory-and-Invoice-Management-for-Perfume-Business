@@ -1,0 +1,61 @@
+{% extends "main/base-default.html" %}
+
+{% block title %}Create Customer{% endblock %}
+
+{% block base-content %}
+
+
+<div
+    class="relative flex h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-y-auto">
+    
+    <!-- Header -->
+    <header
+        class="sticky top-0 z-10 flex items-center justify-between p-4 pb-2 bg-background-light/80 backdrop-blur-sm dark:bg-background-dark/80">
+        <a href="{% url 'customer-list' %}"
+            class="text-slate-900 dark:text-white flex size-12 shrink-0 items-center justify-center">
+            <span class="material-symbols-outlined text-3xl">arrow_back</span>
+        </a>
+        <h1
+            class="flex-1 text-lg font-bold leading-tight tracking-[-0.015em] text-center text-slate-900 dark:text-white">
+            New Customer</h1>
+        <div class="size-12 shrink-0"></div> <!-- Spacer to center the title -->
+    </header>
+
+    <!-- Form Content -->
+    <main class="flex-grow px-4 pt-4 pb-28">
+        <form method="post" class="mx-auto flex w-full max-w-md flex-col space-y-6">
+            {% csrf_token %}
+            <!-- Customer Name Field -->
+            <label class="flex flex-col w-full">
+                <p class="pb-2 text-base font-medium leading-normal text-slate-900 dark:text-white">Customer Name</p>
+                {{ form.name }}
+            </label>
+
+            <!-- Phone Field -->
+            <label class="flex flex-col w-full">
+                <p class="pb-2 text-base font-medium leading-normal text-slate-900 dark:text-white">Phone</p>
+                {{ form.phone_number }}
+            </label>
+
+            <!-- Address Field -->
+            <label class="flex flex-col w-full">
+                <p class="pb-2 text-base font-medium leading-normal text-slate-900 dark:text-white">Address</p>
+                {{ form.address }}
+            </label>
+
+            <!-- Floating Action Button -->
+            <footer
+                class="fixed bottom-0 left-0 right-0 w-full bg-gradient-to-t from-background-light to-transparent p-4 dark:from-background-dark">
+                <div class="flex w-full max-w-md mx-auto">
+                    <button type="submit"
+                        class="flex h-14 flex-1 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-primary px-5 text-base font-bold leading-normal tracking-[0.015em] text-black transition-opacity hover:opacity-90 dark:text-white">
+                        <span class="truncate">Save Customer</span>
+                    </button>
+                </div>
+            </footer>
+        </form>
+    </main>
+</div>
+
+
+{% endblock %}

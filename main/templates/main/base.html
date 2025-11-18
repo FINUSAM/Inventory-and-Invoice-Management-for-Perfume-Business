@@ -20,17 +20,37 @@
         {% block heading %} EMZA {% endblock %}
     </h1>
     <div class="flex w-12 items-center justify-end">
-        <button
-            class="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-transparent text-slate-500 dark:text-primary">
-            <span class="material-symbols-outlined text-2xl">settings</span>
-        </button>
+        <a href="{% url 'customer-list' %}"
+            class="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 {% if request.resolver_match.url_name == 'customer-list' %} bg-primary text-white dark:text-white {% else %} bg-transparent text-slate-500 dark:text-primary {% endif %}">
+            <span class="material-symbols-outlined text-2xl">person</span>
+        </a>
     </div>
 </header>
 <!-- Main Content -->
 <main class="px-4 pb-28">
     <!-- Inventory Table with items -->
     <div class="overflow-x-auto">
+        {% if object_list %}
+
         {% block content %}{% endblock %}
+
+        {% else %}
+
+        <div class="flex flex-col pt-16">
+            <div class="flex flex-col items-center gap-6 rounded-xl border-2 border-dashed border-slate-700 px-6 py-14">
+                <div class="flex max-w-[480px] flex-col items-center gap-2">
+                    <p class="text-lg font-bold leading-tight tracking-[-0.015em] text-white">No items yet</p>
+                    <p class="text-sm font-normal leading-normal text-slate-400">Tap the '+' to add your first
+                        item.</p>
+                </div>
+                <a href="create"
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-primary/20 text-primary text-sm font-bold leading-normal tracking-[0.015em]">
+                    <span>Add Item</span>
+                </a>
+            </div>
+        </div>
+
+        {% endif %}
     </div>
 </main>
 
