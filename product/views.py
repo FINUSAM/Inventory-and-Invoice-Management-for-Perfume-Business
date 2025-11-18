@@ -9,12 +9,11 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-@login_required
-class ProductListView(ListView):
+
+class ProductListView(LoginRequiredMixin, ListView):
     model = Product
 
 
-@login_required
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     template_name = 'product/product_create.html'
@@ -46,7 +45,6 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
             return redirect('product-list')
 
         return self.render_to_response({'form': form, 'formset': formset})
-
 
 
 @login_required

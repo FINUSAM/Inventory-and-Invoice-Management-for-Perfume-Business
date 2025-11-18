@@ -1,6 +1,25 @@
 {% extends "main/base-default.html" %}
 
+{% block title %}EMZA - Offline Page{% endblock %}
+
 {% block base-content %}
-    <h1>You are offline</h1>
-    <p>This is the custom offfline pagexxxxxxxxxxxxxxxxxx.</p>
+
+<div
+    class="relative flex h-auto min-h-screen w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden p-4">
+    <div class="flex w-full max-w-sm flex-col items-center">
+        <div class="text-slate-500 dark:text-white/70 mb-6">
+            <span class="material-symbols-outlined" style="font-size: 64px;">wifi_off</span>
+        </div>
+        <h1
+            class="text-slate-900 dark:text-white tracking-light text-[32px] font-bold leading-tight px-4 text-center pb-1 pt-6 font-display">
+            You are Offline</h1>
+        <p class="text-slate-500 dark:text-white/80 text-base font-normal leading-normal pb-8 pt-2 px-4 text-center font-display">Please
+            check your internet connection and try again.</p>
+        <div class="flex w-full items-center justify-center p-4 pt-8">
+            <a href="{% url 'home' %}"
+                class="flex h-14 w-full items-center justify-center rounded-lg bg-primary px-6 text-base font-bold text-black dark:text-white shadow-lg transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/80 focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark font-display">Retry</a>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

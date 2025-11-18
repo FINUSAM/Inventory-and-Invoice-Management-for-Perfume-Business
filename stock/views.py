@@ -1,17 +1,17 @@
 from .models import Stock
 from django.views.generic import ListView, CreateView
 from django.http import JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-@login_required
-class StockListView(ListView):
+
+class StockListView(LoginRequiredMixin, ListView):
     model = Stock
 
 
-@login_required
-class StockCreateView(CreateView):
+class StockCreateView(LoginRequiredMixin, CreateView):
     model = Stock
     fields = ['name', 'stock_type','opening_quantity']
 
@@ -68,4 +68,3 @@ def stock_search_ajax_view(request):
             'more': stocks_queryset.count() > len(stocks) 
         }
     })
-

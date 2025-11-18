@@ -3,12 +3,10 @@ from django.views.generic import ListView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import SaleBillForm, SaleBillInlineFormset
 from django.shortcuts import redirect
-from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-@login_required
-class SaleBillListView(ListView):
+class SaleBillListView(LoginRequiredMixin, ListView):
     model = SaleBill
 
 
@@ -23,8 +21,6 @@ class SaleBillDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-
-@login_required
 class SaleBillCreateView(LoginRequiredMixin, CreateView):
     model = SaleBill
     form_class = SaleBillForm
