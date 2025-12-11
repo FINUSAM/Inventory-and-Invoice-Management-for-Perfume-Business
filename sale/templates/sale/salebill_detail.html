@@ -124,6 +124,10 @@
             background-color: #1a1a1a;
         }
 
+        .bg-midcolor {
+            background-color: #e8e8e8;
+        }
+
         /* Very Light Gray (Subtle Background for Address Block) */
         .bg-light-gray {
             background-color: #f9fafb;
@@ -375,7 +379,7 @@
                             <td class="w-1/2 align-top pr-10 pl-2">
                                 <p class="font-bold color-gold mb-1 uppercase">BILLED FROM</p>
                                 <div class="addr-line-tight">
-                                    <p class="font-bold text-charcoal text-sm">EMZA Signature Collections</p>
+                                    <p class="font-bold text-charcoal text-sm">EMZA - The Invisible Signature</p>
                                     <p class="text-xs text-charcoal-light">Ph: +918157914280</p>
                                     <!-- Address lines combined -->
                                     <p class="text-xs text-charcoal-light">Thalassery, Kannur, Kerala</p>
@@ -472,15 +476,15 @@
                                                         <tr>
                                                         {% endif %}
                                                             <!-- Total label changed from 'TOTAL DUE' to 'TOTAL' -->
-                                                            <td class="bg-charcoal p-3">
+                                                            <td class="bg-midcolor p-3">
                                                                 <div
-                                                                    class="whitespace-nowrap font-bold text-white uppercase">
+                                                                    class="whitespace-nowrap font-bold text-black uppercase">
                                                                     TOTAL</div>
                                                             </td>
-                                                            <td class="bg-charcoal p-3 text-right">
+                                                            <td class="bg-midcolor p-3 text-right">
                                                                 <div
-                                                                    class="whitespace-nowrap font-extrabold text-white text-xl">
-                                                                    {{ object.final_amount }}</div>
+                                                                    class="whitespace-nowrap font-extrabold text-black text-sm">
+                                                                    Rs. {{ object.final_amount }}</div>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -496,26 +500,24 @@
             </div>
 
             <!-- NOTES BLOCK -->
-            <div class="px-14 pb-10 text-sm text-neutral-700">
-                <p class="font-bold color-gold pb-2 uppercase">A Special Note from EMZA</p>
-                <p class="italic border-b-2 border-slate-300 pb-6">Each product is crafted with passion and precision to
+            <div class="px-14 pt-6 text-sm text-neutral-700">
+                <p class="font-bold  mb-1 color-gold uppercase">A Special Note from EMZA</p>
+                <p class="italic border-b-2 mt-1 border-slate-300">Each product is crafted with passion and precision to
                     bring you timeless elegance. Thank you for choosing EMZA.</p>
             </div>
 
 
             <!-- PAYMENT FOOTER: UPI Scan & Pay (Centered and prominent) -->
-            <div class="px-14 bg-light-gray py-8">
+            <!-- div class="px-14 bg-light-gray py-8">
                 <p class="font-bold color-gold mt-1 mb-1 text-center text-lg uppercase">Scan & Pay (UPI)</p>
 
                 <div class="flex justify-center items-center">
                     <div>
-                        <!-- UPI QR Code Placeholder (Increased Size) -->
                         <img src="https://placehold.co/150x150/1a1a1a/ccaa55?text=UPI+QR" alt="UPI QR Code Placeholder"
                             class="mb-3 border border-gold"
                             style="width: 150px; height: 150px; padding: 5px; display: block; margin: 0 auto;">
 
                         <div class="text-xs pt-2 text-charcoal-light text-center">
-                            <!-- Details text size reduced to text-xs -->
                             <p class="font-bold text-charcoal mt-1 mb-1">emza.perfume@upi</p>
                             <p class="pt-1 text-slate-400 mt-1 mb-1">Mobile No: +91 9876 543 210</p>
                             <p class="text-slate-400 pt-1 mt-1 mb-1">Reference: <span class="text-charcoal font-bold">
@@ -523,7 +525,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div -->
 
             <!-- Crafted with love footer -->
             <div class="px-14 pt-2 text-center text-xs text-slate-400">
@@ -531,9 +533,19 @@
             </div>
 
             <!-- Print Button (Styled with Deep Charcoal) -->
-            <div class="px-14 pt-6 pb-10">
+            <div class="px-14 pt-6">
+                <a href="{% url 'salebill-edit' object.pk %}">
+                <button
+                    class="w-full bg-charcoal text-white font-bold py-8 px-6 rounded text-center shadow-lg transition duration-300 ease-in-out hover:bg-opacity-90 hover:shadow-xl print:hidden no-print">
+                    &#x1F4DD; Edit Bill
+                </button>
+                </a>
+            </div>
+
+            <!-- Print Button (Styled with Deep Charcoal) -->
+            <div class="px-14 pt-2 pb-6">
                 <button onclick="window.print()"
-                    class="w-full bg-charcoal text-white font-bold py-3 px-6 rounded text-center shadow-lg transition duration-300 ease-in-out hover:bg-opacity-90 hover:shadow-xl print:hidden no-print">
+                    class="w-full bg-charcoal text-white font-bold py-8 px-6 rounded text-center shadow-lg transition duration-300 ease-in-out hover:bg-opacity-90 hover:shadow-xl print:hidden no-print">
                     &#x1F5A8;&#xFE0F; Print / Save as PDF
                 </button>
             </div>

@@ -1,5 +1,5 @@
 from .models import Product, StockVariant
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from .forms import ProductForm, StockVariantInlineFormset
@@ -47,6 +47,39 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return self.render_to_response({'form': form, 'formset': formset})
 
 
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    model = Product
+    template_name = 'product/product_create.html'  # Reusing the create template
+    form_class = ProductForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = StockVariantInlineFormset(self.request.POST, instance=self.object)
+        else:
+            context['formset'] = StockVariantInlineFormset(instance=self.object)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        formset = StockVariantInlineFormset(request.POST, instance=self.object)
+
+        if form.is_valid() and formset.is_valid():
+            return self.form_valid(form, formset)
+        else:
+            return self.form_invalid(form, formset)
+
+    def form_valid(self, form, formset):
+        self.object = form.save()
+        formset.instance = self.object
+        formset.save()
+        return redirect('product-list')
+
+    def form_invalid(self, form, formset):
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+
 @login_required
 def product_search_ajax_view(request):
     """
@@ -85,11 +118,3 @@ def product_search_ajax_view(request):
             'more': products_queryset.count() > len(products) 
         }
     })
-
-
-
-
-
-
-
-

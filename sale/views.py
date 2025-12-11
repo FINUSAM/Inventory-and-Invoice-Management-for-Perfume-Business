@@ -1,5 +1,5 @@
 from .models import SaleBill, ProductSale
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import SaleBillForm, SaleBillInlineFormset
 from django.shortcuts import redirect
@@ -24,7 +24,8 @@ class SaleBillDetailView(LoginRequiredMixin, DetailView):
 class SaleBillCreateView(LoginRequiredMixin, CreateView):
     model = SaleBill
     form_class = SaleBillForm
-    
+    template_name = 'sale/salebill_form.html' # Explicitly set template name
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if 'formset' not in kwargs:
@@ -54,4 +55,37 @@ class SaleBillCreateView(LoginRequiredMixin, CreateView):
 
     def form_invalid(self, form, formset):
         # If the form or formset is invalid, re-render the form with error messages
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+
+class SaleBillUpdateView(LoginRequiredMixin, UpdateView):
+    model = SaleBill
+    form_class = SaleBillForm
+    template_name = 'sale/salebill_form.html'  # Reusing the create template
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = SaleBillInlineFormset(self.request.POST, instance=self.object)
+        else:
+            context['formset'] = SaleBillInlineFormset(instance=self.object)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        formset = SaleBillInlineFormset(request.POST, instance=self.object)
+
+        if form.is_valid() and formset.is_valid():
+            return self.form_valid(form, formset)
+        else:
+            return self.form_invalid(form, formset)
+
+    def form_valid(self, form, formset):
+        self.object = form.save()
+        formset.instance = self.object
+        formset.save()
+        return redirect('salebill-list')
+
+    def form_invalid(self, form, formset):
         return self.render_to_response(self.get_context_data(form=form, formset=formset))

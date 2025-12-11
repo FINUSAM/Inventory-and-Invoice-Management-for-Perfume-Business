@@ -24,11 +24,11 @@
                     </a>
                 </td>
                 <td class="whitespace-nowrap px-3 py-4 text-slate-600 dark:text-slate-300">
-                    {{ item.customer.name }}</td>
+                    <a href="{% url 'salebill-detail' item.id %}" class="hover:underline">{{ item.customer.name }}</a></td>
                 <td class="whitespace-nowrap px-3 py-4 text-slate-600 dark:text-slate-300">
-                    {{ item.created_at|date:"d M" }}</td>
+                    <a href="{% url 'salebill-detail' item.id %}" class="hover:underline">{{ item.created_at|date:"d M" }}</a></td>
                 <td class="whitespace-nowrap pl-3 pr-4 py-4 text-slate-600 dark:text-slate-300">
-                    {{ item.final_amount }}</td>
+                    <a href="{% url 'salebill-detail' item.id %}" class="hover:underline">{{ item.final_amount }}</a></td>
             </tr>
             {% endfor %}
         </tbody>
