@@ -88,7 +88,8 @@
                 </div>
                 <p class="text-xs font-medium leading-normal tracking-[0.015em]">Sale</p>
             </a>
-            <a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500 dark:text-slate-400" href="#">
+            <a class="flex flex-1 flex-col items-center justify-end gap-1 {% if request.resolver_match.url_name == 'purchasebill-list' %}rounded-full text-primary{% else %}text-slate-500 dark:text-slate-400{% endif %}"
+                href="{% url 'purchasebill-list' %}">
                 <div class="flex h-8 items-center justify-center">
                     <span class="material-symbols-outlined">shopping_cart</span>
                 </div>

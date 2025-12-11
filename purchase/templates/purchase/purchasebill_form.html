@@ -1,0 +1,230 @@
+{% extends "main/base-default.html" %}
+
+{% block title %} Create Purchase {% endblock %}
+
+{% block base-css %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    /* Custom styles for Select2 to match the theme */
+    .select2-container--default .select2-selection--single {
+        background-color: #f1f5f9; /* bg-slate-100 */
+        border: 1px solid #cbd5e1; /* border-slate-300 */
+        border-radius: 0.5rem; /* rounded-lg */
+        height: 3.5rem; /* h-14 */
+    }
+    .dark .select2-container--default .select2-selection--single {
+        background-color: rgba(39, 39, 42, 0.5); /* dark:bg-neutral-900/50 */
+        border-color: #404040; /* dark:border-neutral-700 */
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #0f172a; /* text-slate-900 */
+        line-height: 3.5rem;
+        padding-left: 1rem;
+    }
+    .dark .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #fff; /* dark:text-white */
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 3.5rem;
+    }
+    .select2-dropdown {
+        border-color: #cbd5e1;
+        border-radius: 0.5rem;
+    }
+    .dark .select2-dropdown {
+        background-color: #27272a;
+        border-color: #404040;
+    }
+    .select2-container--default .select2-search--dropdown .select2-search__field {
+        border-color: #cbd5e1;
+    }
+    .dark .select2-container--default .select2-search--dropdown .select2-search__field {
+        background-color: #3f3f46;
+        border-color: #404040;
+        color: #fff;
+    }
+    .select2-results__option {
+        color: #000; /* text-black */
+    }
+    .dark .select2-results__option {
+        color: #fff; /* dark:text-white */
+    }
+    .select2-results__option--highlighted[aria-selected] {
+        color: #000; /* Keep highlighted text black */
+    }
+</style>
+{% endblock %}
+
+{% block base-content %}
+<div class="relative flex h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-y-auto">
+    <!-- Header -->
+    <header class="flex sticky top-0 z-10 items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm p-4 pb-2 justify-between">
+        <a href="{% url 'purchasebill-list' %}" class="text-slate-900 dark:text-white flex size-12 shrink-0 items-center justify-center">
+            <span class="material-symbols-outlined text-3xl">arrow_back</span>
+        </a>
+        <h1 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Create Purchase</h1>
+        <div class="size-12 shrink-0"></div> <!-- Spacer to center the title -->
+    </header>
+
+<main class="flex-grow px-4 pt-4 pb-44"><form method="post" class="space-y-8 max-w-4xl mx-auto">
+    {% csrf_token %}
+
+    <!-- Stock Purchases Formset -->
+    <div class="space-y-4 rounded-lg border border-slate-200/80 dark:border-white/10 p-6">
+        <h2 class="text-lg font-semibold text-primary">Stock Items</h2>
+        {{ formset.non_form_errors }}
+        {{ formset.management_form }}
+
+        <div id="formset-container" class="space-y-4">
+            {% for form in formset %}
+            <div class="formset-form grid grid-cols-12 gap-4 items-center" data-index="{{ forloop.counter0 }}">
+                {{ form.id }}
+                <div class="hidden">{{ form.DELETE }}</div>
+                <div class="col-span-12 md:col-span-6">
+                    {{ form.stock }}
+                </div>
+                <div class="col-span-6 md:col-span-2">
+                    {{ form.quantity }}
+                </div>
+                <div class="col-span-6 md:col-span-2">
+                    {{ form.price }}
+                </div>
+                <div class="col-span-12 md:col-span-2 flex justify-end">
+                    <button type="button" class="remove-form-btn flex items-center justify-center h-10 w-10 rounded-full bg-red-100 dark:bg-red-900/50 text-red-500 hover:bg-red-200 dark:hover:bg-red-900 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div id="empty-form-template" style="display: none;">
+            <div class="formset-form grid grid-cols-12 gap-4 items-center" data-index="__prefix__">
+                {{ formset.empty_form.id }}
+                <div class="hidden">{{ formset.empty_form.DELETE }}</div>
+                <div class="col-span-12 md:col-span-6">
+                    {{ formset.empty_form.stock }}
+                </div>
+                <div class="col-span-6 md:col-span-2">
+                    {{ formset.empty_form.quantity }}
+                </div>
+                <div class="col-span-6 md:col-span-2">
+                    {{ formset.empty_form.price }}
+                </div>
+                <div class="col-span-12 md:col-span-2 flex justify-end">
+                    <button type="button" class="remove-form-btn flex items-center justify-center h-10 w-10 rounded-full bg-red-100 dark:bg-red-900/50 text-red-500 hover:bg-red-200 dark:hover:bg-red-900 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" id="add-form-btn" class="flex items-center justify-center w-full rounded-lg border-2 border-dashed border-slate-300 dark:border-neutral-700 px-6 py-3 text-sm font-bold text-primary hover:bg-primary/10 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
+            Add Stock
+        </button>
+    </div>
+
+    <!-- Floating Action Button -->
+    <footer class="fixed bottom-0 left-0 right-0 w-full p-4 bg-gradient-to-t from-background-light dark:from-background-dark to-transparent">
+        <div class="flex w-full max-w-4xl mx-auto">
+            <button type="submit" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-14 px-5 flex-1 bg-primary text-black dark:text-white text-base font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity">Save Purchase</button>
+        </div>
+    </footer></form></main></div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const addFormBtn = document.getElementById('add-form-btn');
+        const formContainer = document.getElementById('formset-container');
+        const template = document.getElementById('empty-form-template');
+
+        const AJAX_URL_PATTERN = "{% url 'stock_search_ajax' %}";
+        const prefix = '{{ formset.prefix }}';
+        const totalFormsInput = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
+
+        function initializeSelect2(element) {
+            $(element).select2({
+                placeholder: 'Search Stock',
+                minimumInputLength: 1,
+                width: '100%',
+                allowClear: true,
+                ajax: {
+                    url: AJAX_URL_PATTERN,
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return { term: params.term, page: params.page };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.results,
+                            pagination: { more: (params.page * 30) < data.total_count }
+                        };
+                    },
+                    cache: true
+                }
+            }).on('select2:open', function () {
+                const searchInput = $('.select2-container--open .select2-search__field')[0];
+                if (searchInput) searchInput.focus();
+            });
+        }
+
+        function addForm(e) {
+            e.preventDefault();
+            let currentTotalForms = parseInt(totalFormsInput.value);
+            const newIndex = currentTotalForms;
+
+            const newFormHtml = template.innerHTML.replace(/__prefix__/g, newIndex);
+            const newFormDiv = document.createElement('div');
+            newFormDiv.innerHTML = newFormHtml;
+
+            formContainer.appendChild(newFormDiv);
+            totalFormsInput.value = newIndex + 1;
+            
+            const newSelect = newFormDiv.querySelector('select[name$="-stock"]');
+            initializeSelect2(newSelect);
+            attachRemoveListeners(newFormDiv);
+        }
+
+        function removeForm(e) {
+            e.preventDefault();
+            const formDiv = e.target.closest('.formset-form');
+            if (!formDiv) return;
+
+            const deleteCheckbox = formDiv.querySelector('input[type="checkbox"][name$="-DELETE"]');
+            if (deleteCheckbox) {
+                deleteCheckbox.checked = true;
+                formDiv.style.display = 'none';
+            } else {
+                formDiv.remove();
+                updateFormIndexes();
+            }
+        }
+
+        function updateFormIndexes() {
+            const forms = formContainer.querySelectorAll('.formset-form:not([style*="display: none"])');
+            totalFormsInput.value = forms.length;
+            forms.forEach((form, index) => {
+                form.setAttribute('data-index', index);
+                form.querySelectorAll('input, select, textarea').forEach(el => {
+                    el.name = el.name.replace(/-(\d+|__prefix__)-/, `-${index}-`);
+                    el.id = el.id.replace(/-(\d+|__prefix__)-/, `-${index}-`);
+                });
+            });
+        }
+        
+        function attachRemoveListeners(container) {
+            container.querySelectorAll('.remove-form-btn').forEach(btn => btn.addEventListener('click', removeForm));
+        }
+
+        addFormBtn.addEventListener('click', addForm);
+        attachRemoveListeners(formContainer);
+        
+        formContainer.querySelectorAll('select[name$="-stock"]').forEach(select => initializeSelect2(select));
+    });
+</script>
+
+{% endblock %}

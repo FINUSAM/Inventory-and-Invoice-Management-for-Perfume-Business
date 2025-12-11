@@ -12,6 +12,7 @@
                 <th class="py-3.5 pl-4 pr-3 text-left font-semibold text-primary" scope="col">Name</th>
                 <th class="pl-3 pr-4 py-3.5 text-left font-semibold text-primary" scope="col">Category</th>
                 <th class="px-3 py-3.5 text-left font-semibold text-primary" scope="col">Available</th>
+                <th class="px-3 py-3.5 text-left font-semibold text-primary" scope="col">Purchase</th>
                 <th class="px-3 py-3.5 text-left font-semibold text-primary" scope="col">Sales</th>
                 <!-- th class="px-3 py-3.5 text-left font-semibold text-primary" scope="col">Opening Quantity</th>
                 <th class="px-3 py-3.5 text-left font-semibold text-primary" scope="col">Purchase Quantity</th -->
@@ -28,6 +29,9 @@
                 </td>
                 <td class="whitespace-nowrap px-3 py-4 text-slate-600 dark:text-slate-300">
                     <a href="{% url 'stock-edit' item.pk %}">{{ item.balance_quantity }}{{ item.metric }}</a>
+                </td>
+                <td class="whitespace-nowrap px-3 py-4 text-slate-600 dark:text-slate-300">
+                    {{ item.purchase_quantity }} {{ item.metric }}
                 </td>
                 <td class="whitespace-nowrap px-3 py-4 text-slate-600 dark:text-slate-300">
                     <a href="{% url 'stock-edit' item.pk %}">{{ item.sale_quantity }}{{ item.metric }}</a>
