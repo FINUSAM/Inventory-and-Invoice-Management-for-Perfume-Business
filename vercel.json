@@ -1,13 +1,9 @@
 {
     "builds": [
         {
-            "src": "build.sh",
-            "use": "@vercel/static-build",
-            "config": { "distDir": "staticfiles" }
-        },
-        {
             "src": "emza/wsgi.py",
-            "use": "@vercel/python"
+            "use": "@vercel/python",
+            "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
         }
     ],
     "routes": [

@@ -3,3 +3,6 @@ Django==5.2.8
 django-pwa==2.0.1
 sqlparse==0.5.3
 tzdata==2025.2
+psycopg2-binary
+python-dotenv
+
